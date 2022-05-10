@@ -39,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/confirm-account").permitAll()
 				.antMatchers("/login", "/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
 				.antMatchers("/user/register", "/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
+				.antMatchers("/user/articles", "/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
 				.antMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
 				.anyRequest().authenticated().and().formLogin().loginPage("/auth/login")
 				.usernameParameter("email").defaultSuccessUrl("/", true).failureUrl("/auth/login?error=true")
