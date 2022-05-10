@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Register</title>
+<meta charset="UTF-8">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+
+<link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
+
+</head>
+
+
+<body>
+	<div class="container login-form">
+		<h2 class="login-title">- Registro -</h2>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form action="#" th:action="@{/user/register}" th:object="${user}"
+					method="post">
+
+
+					<input type="hidden" name="${csrf.parameterName}"
+						value="${csrf.token}" />
+
+
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-user"></span></span> <input class="text set-width2"
+							type="text" name="name" placeholder="Nombre" th:field="*{name}">
+					</div>
+
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-globe"> </span></span> <input class="text set-width2"
+							type="text" name="surname" placeholder="Apellidos"
+							th:field="*{surname}">
+					</div>
+
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-file"> </span></span> <input class="text set-width2"
+							type="text" name="dni" placeholder="dni" th:field="*{dni}">
+					</div>
+
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"> </span></span> <input class="text set-width2"
+							type="date" name="birthday" placeholder="fecha"
+							th:field="*{birthday}">
+					</div>
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-envelope"> </span></span> <input type="email" class="text set-width2"
+							name="email" placeholder="Email" th:field="*{email}">
+					</div>
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-phone"> </span></span> <input class="text set-width2"
+							type="text" name="phone" placeholder="Teléfono"
+							th:field="*{phone}">
+					</div>
+
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-eye-close"> </span></span> <input
+							id="password" class="text set-width2" type="password" name="password" 
+							placeholder="Password" th:field="*{password}">
+					</div>
+					<div class="input-group register-userinput">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-eye-close"> </span></span> <input
+							id="confirmPassword" class="text set-width2" type="password"
+							placeholder="Confirmar password" th:field="*{passwordConfirm}">
+					</div>
+					
+					
+					<button class="btn btn-primary btn-block login-button"
+						type="submit">
+						<i class="fa fa-sign-in"></i> Registrate
+					</button>
+					<div class="checkbox login-options">
+						....¿Ya tienes cuenta?<a th:href="@{/auth/login}"> Regresar a
+							login</a>
+					</div>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+	<script src="..js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/register.js"></script>
+
+
+</body>
+</html>
