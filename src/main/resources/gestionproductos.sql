@@ -143,7 +143,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `balance`, `birthday`, `dni`, `email`, `enabled`, `name`, `password`, `password_confirm`, `telefono`, `register_date`, `surname`) VALUES
 (12, NULL, '2022-02-09 23:00:00', '77454874D', 'luis@gmail.com', b'1', 'Luis', '$2a$10$gzdpEzA9fdlcnAQToTfcAOoeG8l9IGRGU9lOmBJSeRs8VgKv6FEgy', '$2a$10$CHWaWtN1..UoKC1xLnoUpec8m33Gady9g8OT9a9Ia4dWZcDKL5wnS', '645645598', '2022-05-08 18:52:52', 'Hernandez'),
 (9, NULL, '2022-01-06 23:00:00', '76084955D', 'ignacastrisa@gmail.com', b'1', 'Ignacio', '$2a$10$DIGZI/trnIVbv9pf3jWm1uvvN4LI/fbo1WtlPdICv7/HTvJqh1wEa', '$2a$10$r1HpxhhJJrOxkfu5AC4bj.zV1uqrO3mO/e13B2GIZzeupcoOEjzNK', '601386781', NULL, 'Castrillon'),
-(14, NULL, '2012-06-06 22:00:00', '74587454F', 'fernandoMagallanes@gmail.com', b'0', 'Fernando', '$2a$10$y3WIaDKxMMQisPeo27cONuPUuwzJ1FCagyhN7URRizFJ6Z6b6pNPW', '$2a$10$eNsVHEO0VmEH673h.90WDONmtG01IAL9yaFRd0F8PRFt8uBVx6ZfS', '645897845', '2022-05-09 08:50:49', 'Magallanes'),
+(14, NULL, '2012-06-06 22:00:00', '74587454F', 'fernandoMagallane@gmail.com', b'0', 'Fernando', '$2a$10$y3WIaDKxMMQisPeo27cONuPUuwzJ1FCagyhN7URRizFJ6Z6b6pNPW', '$2a$10$eNsVHEO0VmEH673h.90WDONmtG01IAL9yaFRd0F8PRFt8uBVx6ZfS', '645897845', '2022-05-09 08:50:49', 'Magallanes'),
 (50, NULL, '2016-01-29 23:00:00', '74574865T', 'froilan@gmail.com', b'0', 'Froilan', '$2a$10$cVGzkEBBFEo/gGNZ6mBhDO/gqXG1JJIHUOxUkva1FAMTO.NYmYCCC', '$2a$10$t9NLt7kDC831WWDAXuM2JOu2L5Bp2kKdvRU.QFXQ/UtTdIF4gloMu', '625458798', '2022-05-10 04:33:50', 'Borbon');
 
 --
