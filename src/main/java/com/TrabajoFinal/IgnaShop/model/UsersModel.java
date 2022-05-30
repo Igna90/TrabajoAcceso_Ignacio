@@ -1,10 +1,8 @@
 package com.TrabajoFinal.IgnaShop.model;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +27,7 @@ public class UsersModel {
 	private String email;
 	private String password;
 	private String passwordConfirm;
-	private BigInteger balance;
+	private double balance;
 	private boolean enabled;
 
 	public UsersModel() {
@@ -37,7 +35,7 @@ public class UsersModel {
 	}
 
 	public UsersModel(int id, String dni, String name, String surname, Date birthday, Date registerDate, String phone,
-			String email, String password, String passwordConfirm, BigInteger balance, Boolean enabled) {
+			String email, String password, String passwordConfirm, double balance, Boolean enabled) {
 		super();
 		this.id = id;
 		this.dni = dni;
@@ -134,11 +132,11 @@ public class UsersModel {
 		this.passwordConfirm = passwordConfirm;
 	}
 
-	public BigInteger getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(BigInteger balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 
@@ -153,7 +151,7 @@ public class UsersModel {
 	@Override
 	public String toString() {
 		return "UsuariosModel [id=" + id + ", name=" + name + ", surname=" + surname + ", birthday=" + birthday
-				+ ", registerDate=" + registerDate + ",   telefono=" + phone + ", email=" + email + ", password="
+				+ ", registerDate=" + registerDate + ",   phone=" + phone + ", email=" + email + ", password="
 				+ password + ", passwordConfirm=" + passwordConfirm + ", balance=" + balance + ", enabled=" + enabled
 				+ "]";
 	}

@@ -42,4 +42,9 @@ public class CategoryServiceImplementation implements CategoryService {
 				map(c->transform(c)).collect(Collectors.toList());
 	}
 
+	@Override
+	public CategoryEntity findCategoryById(int id) {
+		return categoryJpaRepository.findCategoryById(id);
+	}
+
 }

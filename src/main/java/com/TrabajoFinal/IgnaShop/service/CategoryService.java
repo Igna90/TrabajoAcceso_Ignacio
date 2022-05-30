@@ -16,5 +16,7 @@ public interface CategoryService {
 	CategoryEntity transform(CategoryModel categoryModel);
 
 	List<CategoryModel> listAllCategory();
+	
+	CategoryEntity findCategoryById(int id);
 
 }

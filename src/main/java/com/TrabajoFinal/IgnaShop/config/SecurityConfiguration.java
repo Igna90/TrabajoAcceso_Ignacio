@@ -33,18 +33,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.csrf().disable()
+		http.csrf().disable()
 		.authorizeRequests()
-				.antMatchers("/confirm-account").permitAll()
-				.antMatchers("/login", "/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
-				.antMatchers("/user/register", "/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
-				.antMatchers("/user/articles", "/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
-				.antMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/public/**", "/auth/**").permitAll()
-				.anyRequest().authenticated().and().formLogin().loginPage("/auth/login")
+		.antMatchers("/user/confirm-account").permitAll()
+		.antMatchers("/public/articles","/img/**","/assets/**","/css/**","/js/**","/public/**","/static/**","/vendor/**").permitAll()
+		.antMatchers("/public/articlesOrder","/img/**","/assets/**","/css/**","/js/**","/public/**","/static/**","/vendor/**").permitAll()
+		.antMatchers("/public/guest","/img/**","/assets/**","/css/**","/js/**","/public/**","/static/**","/vendor/**").permitAll()
+		.antMatchers("/public/articlesOrder").permitAll()
+		.antMatchers("/auth/login","/user/register","/user/Myarticles**","/img/**","/assets/**","/css/**","/js/**","/public/**","/static/**","/vendor/**","/auth/**").permitAll().anyRequest().authenticated()
+			
+				
+				.and().formLogin().loginPage("/public/guest")
 				.usernameParameter("email").defaultSuccessUrl("/", true).failureUrl("/auth/login?error=true")
 				.loginProcessingUrl("/auth/login-post").permitAll().and().logout().logoutUrl("/logout")
 				.logoutSuccessUrl("/auth/login?logout").permitAll();
 	}
+	
+
 
 }

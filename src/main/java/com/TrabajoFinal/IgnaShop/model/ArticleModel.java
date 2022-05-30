@@ -1,6 +1,7 @@
 package com.TrabajoFinal.IgnaShop.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class ArticleModel {
 
@@ -12,13 +13,14 @@ public class ArticleModel {
 	private int usersId;
 	private int categoryId;
 	private int code;
+	private Date registerDate;
 
 	public ArticleModel() {
 		super();
 	}
 
 	public ArticleModel(int id, String name, String description, BigDecimal price, String image, int usersId,
-			int categoryId, int code) {
+			int categoryId, int code, Date registerDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,6 +30,7 @@ public class ArticleModel {
 		this.usersId = usersId;
 		this.categoryId = categoryId;
 		this.code = code;
+		this.registerDate = registerDate;
 
 	}
 
@@ -101,6 +104,14 @@ public class ArticleModel {
 	public String toString() {
 		return "ArticleModel [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
 				+ ", image=" + image + ", user_id=" + usersId + ", categoryId=" + categoryId + "]";
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
 	}
 
 }

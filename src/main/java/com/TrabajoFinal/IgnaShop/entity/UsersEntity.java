@@ -1,6 +1,5 @@
 package com.TrabajoFinal.IgnaShop.entity;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -51,7 +50,7 @@ public class UsersEntity {
 	@Column(name = "registerDate", updatable = false)
 	private Date registerDate;
 
-	@Column(name = "telefono", length = 10)
+	@Column(name = "phone", length = 10)
 	@NotNull
 	@NotEmpty(message = "El campo teléfono no puede ir vacío")
 	@Size(min = 3, max = 10, message = "El campo teléfono debe tener entre 3 y 60 caracteres")
@@ -73,11 +72,15 @@ public class UsersEntity {
 	private String passwordConfirm;
 
 	@Column(name = "balance")
-	private BigInteger balance;
+	private double balance;
 
 	@Column(name = "enabled")
 	private boolean enabled;
+	
+	@Column(name = "NumVentas")
+	private int numVentas;
 
+	
 	public UsersEntity() {
 		super();
 	}
@@ -85,10 +88,10 @@ public class UsersEntity {
 	public UsersEntity(int id,
 			@Pattern(regexp = "^\\D{1,40}$", message = "No puede contener números") @NotEmpty(message = "Debe introducir un nombre") @Size(min = 1, max = 40, message = "El nombre debe tener de 1 a 40 caracteres") String name,
 			@Pattern(regexp = "^\\D{1,60}$", message = "El apellido no puede contener números, también debe empezar en mayúscula y seguir todo en minúsculas") @NotEmpty(message = "Debe introducir un apellido") @Size(min = 1, max = 60, message = "El apellido debe tener de 1 a 60 caracteres") String surname,
-			boolean enabled, BigInteger balance, Date registerDate, Date birthday,
+			boolean enabled, double balance, Date registerDate, Date birthday,
 			@NotNull @NotEmpty(message = "El campo teléfono no puede ir vacío") @Size(min = 3, max = 10, message = "El campo teléfono debe tener entre 3 y 60 caracteres") String phone,
 			@Email @NotNull @NotEmpty(message = "Debe introducir un email") @Size(min = 1, max = 50, message = "El email debe tener de 1 a 60 caracteres") String email,
-			@NotEmpty(message = "Debe introducir una contraseña") String password,@NotEmpty(message = "Debe introducir una contraseña") String passwordConfirm) {
+			@NotEmpty(message = "Debe introducir una contraseña") String password,@NotEmpty(message = "Debe introducir una contraseña") String passwordConfirm, int numVentas) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -101,7 +104,10 @@ public class UsersEntity {
 		this.passwordConfirm = passwordConfirm;
 		this.birthday = birthday;
 		this.registerDate = registerDate;
+		this.numVentas = numVentas;
 	}
+	
+	
 
 	public int getId() {
 		return id;
@@ -183,11 +189,11 @@ public class UsersEntity {
 		this.passwordConfirm = passwordConfirm;
 	}
 
-	public BigInteger getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(BigInteger balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 
@@ -199,7 +205,28 @@ public class UsersEntity {
 		this.enabled = enabled;
 	}
 
-	
+	public int getNumVentas() {
+		return numVentas;
+	}
+
+	public void setNumVentas(int numVentas) {
+		this.numVentas = numVentas;
+	}
+
+	@Override
+	public String toString() {
+		return "UsersEntity [id=" + id + ", dni=" + dni + ", name=" + name + ", surname=" + surname + ", birthday="
+				+ birthday + ", registerDate=" + registerDate + ", phone=" + phone + ", email=" + email + ", password="
+				+ password + ", passwordConfirm=" + passwordConfirm + ", balance=" + balance + ", enabled=" + enabled
+				+ ", numVentas=" + numVentas + ", getId()=" + getId() + ", getDni()=" + getDni() + ", getName()="
+				+ getName() + ", getSurname()=" + getSurname() + ", getBirthday()=" + getBirthday()
+				+ ", getRegisterDate()=" + getRegisterDate() + ", getPhone()=" + getPhone() + ", getEmail()="
+				+ getEmail() + ", getPassword()=" + getPassword() + ", getPasswordConfirm()=" + getPasswordConfirm()
+				+ ", getBalance()=" + getBalance() + ", isEnabled()=" + isEnabled() + ", getNumVentas()="
+				+ getNumVentas() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
+
 	
 	
 	

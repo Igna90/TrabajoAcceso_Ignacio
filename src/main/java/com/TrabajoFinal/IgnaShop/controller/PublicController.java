@@ -1,40 +1,48 @@
 package com.TrabajoFinal.IgnaShop.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.TrabajoFinal.IgnaShop.Constant.ViewConstant;
+import com.TrabajoFinal.IgnaShop.entity.ArticleEntity;
 import com.TrabajoFinal.IgnaShop.entity.UsersEntity;
-import com.TrabajoFinal.IgnaShop.service.UserService;
+import com.TrabajoFinal.IgnaShop.service.ArticleService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/public")
 public class PublicController {
-
+	
 	@Autowired
-	private UserService userService;
-
-	@GetMapping("/")
-	public String index(Authentication auth, HttpSession session, Model model) {
-
-		String email = auth.getName();
-
-		if (session.getAttribute("user") == null ) {
-			UsersEntity user = userService.findUserByEmail(email);
-			user.setPassword(null);
-			session.setAttribute("user", user);
-
-		}
-
-		return ViewConstant.INDEX;
+	public ArticleService articleService;
+	
+	@RequestMapping(value = "/guest", method = RequestMethod.GET)
+	public ModelAndView index(ModelAndView modelAndView, UsersEntity user) {
+		modelAndView.addObject("user", user);
+		modelAndView.setViewName("index2");
+		return modelAndView;
 	}
+	
+	
+	@GetMapping("/articles")
+	public String listAllArticle(Model model,  ArticleEntity articleEntity) {
 
+		model.addAttribute("article", new ArticleEntity());
+		model.addAttribute("articles", articleService.listAllArticles(articleService.findArticleById(articleEntity.getId())));
+		return ViewConstant.ARTICLE;
+	}
+	
+	@GetMapping("/articlesOrder")
+	public String listAllArticleByOrder(Model model) {
 
+		model.addAttribute("article", new ArticleEntity());
+		model.addAttribute("articles", articleService.listArticlesByOrder());
+		return ViewConstant.ARTICLE;
+	}
+	
 
 }

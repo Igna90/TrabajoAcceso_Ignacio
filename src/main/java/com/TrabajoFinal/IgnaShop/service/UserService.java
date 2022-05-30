@@ -1,5 +1,7 @@
 package com.TrabajoFinal.IgnaShop.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.TrabajoFinal.IgnaShop.entity.UsersEntity;
@@ -17,5 +19,11 @@ public interface UserService {
 	UsersEntity transform(UsersModel usersModel);
 
 	UsersEntity editUser(UsersModel usersModel);
+
+	UsersEntity findeUserById(int id);
+
+	UsersEntity updateUser(UsersEntity user);
+
+	List<UsersEntity> listUsersByOrder();
 
 }

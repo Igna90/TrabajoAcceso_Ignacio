@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -26,17 +27,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.TrabajoFinal.IgnaShop.Constant.ViewConstant;
+import com.TrabajoFinal.IgnaShop.entity.ArticleEntity;
+import com.TrabajoFinal.IgnaShop.entity.CategoryEntity;
+import com.TrabajoFinal.IgnaShop.entity.CommentEntity;
+import com.TrabajoFinal.IgnaShop.entity.UsersEntity;
+import com.TrabajoFinal.IgnaShop.model.ConfirmationToken;
+import com.TrabajoFinal.IgnaShop.repository.CommentJpaRepository;
 import com.TrabajoFinal.IgnaShop.repository.ConfirmationTokenRepository;
 import com.TrabajoFinal.IgnaShop.repository.UserRepository;
 import com.TrabajoFinal.IgnaShop.service.ArticleService;
 import com.TrabajoFinal.IgnaShop.service.CategoryService;
+import com.TrabajoFinal.IgnaShop.service.CommentsService;
 import com.TrabajoFinal.IgnaShop.service.EmailSenderService;
 import com.TrabajoFinal.IgnaShop.service.UserService;
-import com.TrabajoFinal.IgnaShop.model.ConfirmationToken;
-import com.TrabajoFinal.IgnaShop.Constant.ViewConstant;
-import com.TrabajoFinal.IgnaShop.entity.ArticleEntity;
-import com.TrabajoFinal.IgnaShop.entity.CategoryEntity;
-import com.TrabajoFinal.IgnaShop.entity.UsersEntity;
 
 @Controller
 @RequestMapping("/user")
@@ -44,6 +48,9 @@ public class UserAccountController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private CommentJpaRepository commentRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -59,6 +66,9 @@ public class UserAccountController {
 
 	@Autowired
 	public ArticleService articleService;
+
+	@Autowired
+	public CommentsService commentService;
 
 	@Autowired
 	public CategoryService categoryService;
@@ -93,7 +103,7 @@ public class UserAccountController {
 			mailMessage.setSubject("Complete el registro!!");
 			mailMessage.setFrom("ignatiusceferon@gmail.com");
 			mailMessage.setText("Por favor pulse el siguiente enlace para verificar su correo: "
-					+ "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+					+ "http://localhost:8080/user/confirm-account?token=" + confirmationToken.getConfirmationToken());
 
 			emailSenderService.sendEmail(mailMessage);
 
@@ -108,6 +118,8 @@ public class UserAccountController {
 	@RequestMapping(value = "/confirm-account", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token") String confirmationToken) {
 		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+
+		System.out.println("Hola desde aqui");
 
 		if (token != null) {
 			UsersEntity user = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
@@ -143,21 +155,6 @@ public class UserAccountController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/articles")
-	public String listAllArticle(Model model) {
-
-		model.addAttribute("article", new ArticleEntity());
-		model.addAttribute("articles", articleService.listAllArticles());
-		return ViewConstant.ARTICLE;
-	}
-
-	@GetMapping("/Myarticles")
-	public String listAllArticle(Model model, Authentication auth) {
-		model.addAttribute("article", new ArticleEntity());
-		model.addAttribute("articles", articleService.listArticlesByUser(userService.findUserByEmail(auth.getName())));
-		return ViewConstant.MYARTICLE;
-	}
-
 	@GetMapping("/createArticle")
 	public ModelAndView createArticleForm() {
 		ModelAndView mav = new ModelAndView(ViewConstant.CREATEARTICLE);
@@ -190,6 +187,8 @@ public class UserAccountController {
 				e.printStackTrace();
 			}
 		}
+		Date fecha = new Date();
+		article.setRegisterDate(fecha);
 
 		UsersEntity user = userService.findUserByEmail(auth.getName());
 		article.setUsersId(user);
@@ -207,7 +206,7 @@ public class UserAccountController {
 	}
 
 	@GetMapping("/updateArticle/{id}")
-	public String updateArticleForm(Model model, @PathVariable(name="id") int id) {
+	public String updateArticleForm(Model model, @PathVariable(name = "id") int id) {
 
 		ArticleEntity article = articleService.findArticleById(id);
 		model.addAttribute("article", article);
@@ -218,7 +217,7 @@ public class UserAccountController {
 
 	@PostMapping("/updateArticle/{id}")
 	public String updateArticle(@Valid @ModelAttribute("article") ArticleEntity articles,
-			@PathVariable(name="id") int id, @RequestParam(name = "imgs", required = false) MultipartFile imagen) {
+			@PathVariable(name = "id") int id, @RequestParam(name = "imgs", required = false) MultipartFile imagen) {
 
 		ArticleEntity article = articleService.findArticleById(id);
 		if (!imagen.isEmpty()) {
@@ -241,13 +240,137 @@ public class UserAccountController {
 				e.printStackTrace();
 			}
 		}
-		
 
 		articleService.updateArticle(articleService.transform(articles));
 		return "redirect:/user/Myarticles";
 	}
+
+	@GetMapping("/infoUser/{id}")
+	public String infoUser(Model model, @PathVariable(name = "id") int id) {
+
+		UsersEntity user = userService.findeUserById(id);
+
+		model.addAttribute("user", user);
+		model.addAttribute("article", new ArticleEntity());
+		model.addAttribute("articles", articleService.listArticlesByUser(user));
+		model.addAttribute("category", new CategoryEntity());
+		model.addAttribute("categories", categoryService.listAllCategory());
+		return ViewConstant.USERINFO;
+	}
+
+	@GetMapping("/infoUserOrderCategory/{id}")
+	public String filterInfoUserByCategory(Model model, @PathVariable(name = "id") int id,
+			@RequestParam(name = "categoryId", required = false) int categoryId) {
+
+		UsersEntity user = userService.findeUserById(id);
+		CategoryEntity category = categoryService.findCategoryById(categoryId);
+		List<ArticleEntity> articles = articleService.findArticleByUsersIdAndCategoryId(user, category);
+
+		model.addAttribute("user", user);
+		model.addAttribute("article", new ArticleEntity());
+		model.addAttribute("articles", articles);
+		model.addAttribute("category", new CategoryEntity());
+		model.addAttribute("categories", categoryService.listAllCategory());
+
+		return ViewConstant.FILTER;
+	}
+
+	@GetMapping("/infoUserOrderbyPrice/{id}")
+	public String filterInfoUserByPrice(Model model, @PathVariable(name = "id") int id) {
+
+		UsersEntity user = userService.findeUserById(id);
+		List<ArticleEntity> articles = articleService.listArticlesByUsersIdAndPriceAsc(user);
+
+		model.addAttribute("user", user);
+		model.addAttribute("article", new ArticleEntity());
+		model.addAttribute("articles", articles);
+		model.addAttribute("category", new CategoryEntity());
+		model.addAttribute("categories", categoryService.listAllCategory());
+
+		return ViewConstant.PRICE;
+	}
+
+	@GetMapping("/Myarticles")
+	public String listAllArticle(Model model, Authentication auth) {
+		model.addAttribute("article", new ArticleEntity());
+		model.addAttribute("articles", articleService.listArticlesByUser(userService.findUserByEmail(auth.getName())));
+		return ViewConstant.MYARTICLE;
+	}
+
+	@GetMapping("/allArticles")
+	public String listAllArticles(Model model, ArticleEntity articleEntity) {
+
+		model.addAttribute("article", new ArticleEntity());
+		model.addAttribute("articles",
+				articleService.listAllArticles(articleService.findArticleById(articleEntity.getId())));
+		return ViewConstant.ALLARTICLES;
+	}
+
+	@GetMapping("/rechargeBalance")
+	public String recharge(Model model, Authentication auth, @ModelAttribute("user") UsersEntity userEntity) {
+
+		String email = auth.getName();
+		UsersEntity user = userService.findUserByEmail(email);
+
+		model.addAttribute("user", user);
+
+		return ViewConstant.BALANCE;
+	}
+
+	@PostMapping("/rechargeUpdate")
+	public String rechargeUpdate(Model model, Authentication auth, @ModelAttribute("user") UsersEntity userEntity) {
+
+		double balance = userEntity.getBalance();
+		UsersEntity user = userService.findUserByEmail(auth.getName());
+		balance = balance + (user.getBalance());
+		user.setBalance(balance);
+		userService.updateUser(user);
+
+		return "redirect:/user/rechargeBalance";
+
+	}
+
+	@GetMapping("/comments/{id}")
+	public String comments(Model model, @PathVariable(name = "id") int id,
+			@ModelAttribute("comment") CommentEntity comment) {
+
+		UsersEntity receiver = userService.findeUserById(id);
+		model.addAttribute("user", receiver);
+		model.addAttribute("comment", new CommentEntity());
+		model.addAttribute("comments", commentService.listCommentByReceiverId(receiver));
+
+		return ViewConstant.COMMENTS;
+	}
+
+	@PostMapping("/commentsCreate/{id}")
+	public String createComments(Model model, @PathVariable(name = "id") int id, Authentication auth,
+			@ModelAttribute("comment") CommentEntity comment) {
+
+		String email = auth.getName();
+		UsersEntity user = userService.findUserByEmail(email);
+		UsersEntity receiver = userService.findeUserById(id);
+		model.addAttribute("user", receiver);
+		model.addAttribute("comment", new CommentEntity());
+
+		Date fecha = new Date();
+		comment.setRegisterDate(fecha);
+		comment.setReceiverId(receiver);
+		comment.setAuthorId(user);
+
+		commentRepository.save(comment);
+
+		return "redirect:/user/comments/{id}";
+	}
+
+	@GetMapping("/topUsers")
+	public String topSellers(Model model, UsersEntity usersEntity) {
 	
+		model.addAttribute("user", new UsersEntity());
+		model.addAttribute("users", userService.listUsersByOrder());
 	
+
+		return ViewConstant.TOP;
+	}
 
 	public UserRepository getUserRepository() {
 		return userRepository;

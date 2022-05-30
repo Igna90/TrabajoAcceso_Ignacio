@@ -11,4 +11,12 @@ public class ViewConstant {
 	public static final String MYARTICLE = "Myarticles";
 	public static final String ARTICLE = "articles";
 	public static final String UPDATEARTICLE = "articleUpdate";
+	public static final String INDEX2 = "index2";
+	public static final String ALLARTICLES = "allArticles";
+	public static final String USERINFO = "infoUser";
+	public static final String FILTER = "filterArticle";
+	public static final String BALANCE = "balance";
+	public static final String COMMENTS = "comments";
+	public static final String PRICE = "articlePrice";
+	public static final String TOP = "top";
 }

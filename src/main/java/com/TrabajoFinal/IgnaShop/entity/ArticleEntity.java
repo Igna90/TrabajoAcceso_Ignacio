@@ -1,6 +1,8 @@
 package com.TrabajoFinal.IgnaShop.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +44,9 @@ public class ArticleEntity {
 
 	@Column(name = "image", nullable = false)
 	private String image;
+	
+	@Column(name = "registerDate", updatable = false)
+	private Date registerDate;
 
 	@ManyToOne
 	@JoinColumn(name = "usersId")
@@ -56,7 +61,7 @@ public class ArticleEntity {
 	}
 
 	public ArticleEntity(int id, String name, String description, BigDecimal price, String image, UsersEntity usersId,
-			CategoryEntity categoryId, int code) {
+			CategoryEntity categoryId, int code, Date registerDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -65,7 +70,8 @@ public class ArticleEntity {
 		this.image = image;
 		this.usersId = usersId;
 		this.categoryId = categoryId;
-		this.code = code;
+		this.registerDate = registerDate;
+		
 
 	}
 
@@ -137,6 +143,14 @@ public class ArticleEntity {
 	public String toString() {
 		return "ArticleModel [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
 				+ ", image=" + image + ", categoryId=" + categoryId + "]";
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
 	}
 
 }

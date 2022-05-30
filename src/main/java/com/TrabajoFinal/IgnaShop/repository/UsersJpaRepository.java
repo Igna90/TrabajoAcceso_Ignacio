@@ -1,7 +1,7 @@
 package com.TrabajoFinal.IgnaShop.repository;
 
 import java.io.Serializable;
-
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,8 @@ public interface UsersJpaRepository extends JpaRepository<UsersEntity, Serializa
 	
 	public UsersModel findUserByName(String name);
 	public UsersEntity findUserByEmail(String email);
-
+	public UsersEntity findUserById(int id);
+	List<UsersEntity> findByOrderByNumVentasDesc();
 
 
 	

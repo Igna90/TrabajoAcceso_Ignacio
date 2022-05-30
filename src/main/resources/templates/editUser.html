@@ -1,87 +1,77 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
-<head th:replace="layout/layout :: head">
-<title>Actualizar Usuario</title>
+<head th:replace="index:: head">
+<title>Actualizar usuario</title>
 <meta charset="UTF-8">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="Bootstrap/js/bootstrap.min.js"></script>
-<link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 <body>
-	<section class="nombreClass">
+	<section class="EditUser">
 		<div class="container-fluid" layout:fragment="page-content">
 			<div class="container login-form">
 				<h2 class="login-title">- Actualizar Usuario -</h2>
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<form action="#" th:action="@{/user/editUser/edit}" th:object="${user}"
-							method="post">
+						<form action="#" th:action="@{/user/editUser/edit}"
+							th:object="${user}" method="post">
 							<input type="hidden" name="${csrf.parameterName}"
 								value="${csrf.token}" /> <input type="hidden" th:field="*{id}"
 								id="id">
 
 
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-user"></span></span> <input
-									class="text set-width" type="text" name="name"
+									class="text set-width3" type="text" name="name"
 									placeholder="Nombre" th:field="*{name}">
 							</div>
 
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-globe"> </span></span> <input
-									class="text set-width" type="text" name="surname"
+									class="text set-width3" type="text" name="surname"
 									placeholder="Apellidos" th:field="*{surname}">
 							</div>
 
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-file"> </span></span> <input
-									class="text set-width" type="text" name="dni" placeholder="dni"
-									th:field="*{dni}">
+									class="text set-width3" type="text" name="dni"
+									placeholder="dni" th:field="*{dni}">
 							</div>
 
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-calendar"> </span></span> <input
-									class="date set-width" type="date" name="birthday"
+									class="date set-width3" type="date" name="birthday"
 									placeholder="fecha" th:field="*{birthday}">
 							</div>
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-envelope"> </span></span> <input
-									type="email" class="text set-width" name="email"
+									type="email" class="text set-width3" name="email"
 									placeholder="Email" th:field="*{email}">
 							</div>
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-phone"> </span></span> <input
-									class="text set-width" type="text" name="phone"
+									class="text set-width3" type="text" name="phone"
 									placeholder="Teléfono" th:field="*{phone}">
 							</div>
 
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-eye-close"> </span></span> <input
-									id="password" class="text set-width" type="password"
+									id="password" class="text set-width3" type="password"
 									name="password" placeholder="Password" th:field="*{password}">
 							</div>
-							<div class="input-group register-userinput">
+							<div class="input-group edit-userinput">
 								<span class="input-group-addon"><span
 									class="glyphicon glyphicon-eye-close"> </span></span> <input
-									id="confirmPassword" class="text set-width" type="password"
+									id="confirmPassword" class="text set-width3" type="password"
 									placeholder="Confirmar password" th:field="*{passwordConfirm}">
 							</div>
 
@@ -100,19 +90,17 @@
 						</a>
 
 					</div>
-					</center>
+
 				</div>
 			</div>
 		</div>
-		<th:block layout:fragment="page-scripts">
-			<script th:src="@{js/sb-admin-2.min.js}"></script>
-			<script src="..js/jquery.js"></script>
-			<script src="js/bootstrap.min.js"></script>
-			<script src="js/register.js"></script>
-		</th:block>
-
+		
+		
+		
 	</section>
 
-</body>
 
+
+
+</body>
 </html>

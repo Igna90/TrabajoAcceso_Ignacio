@@ -9,6 +9,6 @@ import com.TrabajoFinal.IgnaShop.entity.CategoryEntity;
 
 public interface CategoryJpaRepository extends JpaRepository<CategoryEntity, Serializable> {
 
-	
+	public CategoryEntity findCategoryById(int id);
 	
 }
