@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2022 a las 06:54:59
+-- Tiempo de generación: 31-05-2022 a las 00:56:16
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -35,18 +35,19 @@ CREATE TABLE `article` (
   `name` varchar(60) NOT NULL,
   `price` decimal(19,2) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `users_id` int(11) DEFAULT NULL
+  `users_id` int(11) DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `article`
 --
 
-INSERT INTO `article` (`id`, `code`, `description`, `image`, `name`, `price`, `category_id`, `users_id`) VALUES
-(42, 4, 'Balon del mundial', 'descarga-1652138241408.jpg', 'Ignacio', '3.00', 1, 12),
-(43, 35362, 'Balon del mundial', '5068b980cf47495a6bda3aa70e22f982-1652138357820.jpg', 'DAM', '3.00', 1, 12),
-(44, 4, 'Balon del mundial', 'depositphotos_26429241-stock-photo-desktop-computer-with-touchscreen-interface-1652138762884.jpg', 'DAM', '1500.00', 3, 12),
-(47, 6548, 'pentium 3', 'depositphotos_26429241-stock-photo-desktop-computer-with-touchscreen-interface-1652144653427.jpg', 'Ordenador', '658.00', 3, 9);
+INSERT INTO `article` (`id`, `code`, `description`, `image`, `name`, `price`, `category_id`, `users_id`, `register_date`) VALUES
+(108, 4578, 'Libro de Herman Hesse', '689341092e54ab794c825b48ff03ee95-1653415355330.jpg', 'El lobo estepario ', '14.00', 5, 54, '2022-05-24 18:02:35'),
+(100, 142567, 'Remasterización del famoso album de Muse', '71gL27VZEIL-1652813822187.jpg', 'Muse (Origin of Simetry', '42.00', 2, 54, '2022-05-17 18:57:02'),
+(107, 654, 'zapato de muelles', '5068b980cf47495a6bda3aa70e22f982-1653003307140.jpg', 'Zapato', '24.00', 3, 105, '2022-05-27 23:35:07'),
+(135, 156, 'pentium 3', '5068b980cf47495a6bda3aa70e22f982-1653936809388.jpg', 'Ordenador', '1.00', 4, 54, '2022-05-30 18:53:29');
 
 -- --------------------------------------------------------
 
@@ -64,12 +65,39 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`) VALUES
-(1, 'Deportes'),
-(2, 'Música'),
-(3, 'Tecnología'),
-(4, 'Moda'),
 (5, 'Libros'),
-(6, 'Muebles');
+(4, 'Tecnología'),
+(3, 'Moda'),
+(2, 'Música'),
+(1, 'Deportes');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `text` varchar(1024) NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `receiver_id` int(11) DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL,
+  `stars` float NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comments`
+--
+
+INSERT INTO `comments` (`id`, `text`, `author_id`, `receiver_id`, `register_date`, `stars`) VALUES
+(1, 'Quiero mostrar mi satisfacción con este vendedor.', 54, 105, '2022-05-20 22:00:00', 0),
+(2, 'Quiero quejarme del comportamiento de este vendedor', 105, 54, '2022-05-27 13:01:35', 0),
+(3, 'Magnifica compra!!', 105, 54, '2022-05-27 13:01:35', 0),
+(121, 'Una de las mejores compras de mi vida', 54, 105, '2022-05-28 17:47:27', 0),
+(132, 'Todo perfecto, magnífico vendedor!!', 54, 105, '2022-05-29 17:07:44', 5),
+(133, 'Bravisimo es un gran vendedor.', 54, 105, '2022-05-29 19:26:36', 4),
+(134, 'sdfasdf', 54, 105, '2022-05-29 19:27:00', 4);
 
 -- --------------------------------------------------------
 
@@ -89,14 +117,9 @@ CREATE TABLE `confirmation_token` (
 --
 
 INSERT INTO `confirmation_token` (`token_id`, `confirmation_token`, `created_date`, `id`) VALUES
-(2, '08864c39-4d52-4665-b650-1b3e1d6d38a6', '2022-05-08 17:45:02', 1),
-(4, 'ce8069fb-dfae-4403-bc1a-5ce77d630c75', '2022-05-08 17:45:35', 3),
-(6, '1a9208c2-a5fe-4f46-a3c3-f0440cc08c3c', '2022-05-08 18:00:37', 5),
-(8, 'f6962b70-226f-4e79-95bd-5faa80db8ea0', '2022-05-08 18:18:22', 7),
-(10, '3aec6008-1041-470f-ab79-050c2281bc07', '2022-05-08 18:46:18', 9),
-(13, '91182e4d-58ea-401a-81ab-9cd95b48cb65', '2022-05-08 18:52:53', 12),
-(15, '3b2765b8-caa0-46b4-b4d9-96bb57bc75c3', '2022-05-09 08:50:50', 14),
-(51, 'd758fba7-0bca-4c07-bfca-eef2a28a5daf', '2022-05-10 04:33:50', 50);
+(93, 'b5ab2e25-eae2-4e97-961a-77604d200d9c', '2022-05-14 19:11:50', 92),
+(95, '66e3da87-234f-4972-8c7a-a6d878e85524', '2022-05-14 19:13:55', 94),
+(106, '92f5aa94-aa57-4c8a-8972-7aa4e2aff6bf', '2022-05-19 23:34:29', 105);
 
 -- --------------------------------------------------------
 
@@ -113,7 +136,7 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(52);
+(136);
 
 -- --------------------------------------------------------
 
@@ -123,7 +146,7 @@ INSERT INTO `hibernate_sequence` (`next_val`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `balance` decimal(19,2) DEFAULT NULL,
+  `balance` double(19,2) DEFAULT NULL,
   `birthday` datetime NOT NULL,
   `dni` varchar(9) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -131,20 +154,34 @@ CREATE TABLE `users` (
   `name` varchar(40) NOT NULL,
   `password` varchar(60) NOT NULL,
   `password_confirm` varchar(60) NOT NULL,
-  `telefono` varchar(10) NOT NULL,
   `register_date` datetime DEFAULT NULL,
-  `surname` varchar(90) NOT NULL
+  `surname` varchar(90) NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  `num_ventas` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `balance`, `birthday`, `dni`, `email`, `enabled`, `name`, `password`, `password_confirm`, `telefono`, `register_date`, `surname`) VALUES
-(12, NULL, '2022-02-09 23:00:00', '77454874D', 'luis@gmail.com', b'1', 'Luis', '$2a$10$gzdpEzA9fdlcnAQToTfcAOoeG8l9IGRGU9lOmBJSeRs8VgKv6FEgy', '$2a$10$CHWaWtN1..UoKC1xLnoUpec8m33Gady9g8OT9a9Ia4dWZcDKL5wnS', '645645598', '2022-05-08 18:52:52', 'Hernandez'),
-(9, NULL, '2022-01-06 23:00:00', '76084955D', 'ignacastrisa@gmail.com', b'1', 'Ignacio', '$2a$10$DIGZI/trnIVbv9pf3jWm1uvvN4LI/fbo1WtlPdICv7/HTvJqh1wEa', '$2a$10$r1HpxhhJJrOxkfu5AC4bj.zV1uqrO3mO/e13B2GIZzeupcoOEjzNK', '601386781', NULL, 'Castrillon'),
-(14, NULL, '2012-06-06 22:00:00', '74587454F', 'fernandoMagallane@gmail.com', b'0', 'Fernando', '$2a$10$y3WIaDKxMMQisPeo27cONuPUuwzJ1FCagyhN7URRizFJ6Z6b6pNPW', '$2a$10$eNsVHEO0VmEH673h.90WDONmtG01IAL9yaFRd0F8PRFt8uBVx6ZfS', '645897845', '2022-05-09 08:50:49', 'Magallanes'),
-(50, NULL, '2016-01-29 23:00:00', '74574865T', 'froilan@gmail.com', b'0', 'Froilan', '$2a$10$cVGzkEBBFEo/gGNZ6mBhDO/gqXG1JJIHUOxUkva1FAMTO.NYmYCCC', '$2a$10$t9NLt7kDC831WWDAXuM2JOu2L5Bp2kKdvRU.QFXQ/UtTdIF4gloMu', '625458798', '2022-05-10 04:33:50', 'Borbon');
+INSERT INTO `users` (`id`, `balance`, `birthday`, `dni`, `email`, `enabled`, `name`, `password`, `password_confirm`, `register_date`, `surname`, `phone`, `num_ventas`) VALUES
+(12, 5400.22, '2022-05-20 22:00:00', '7777777d', 'carmen@gmail.com2', b'0', 'Carmen', '$2a$10$zcpsyNLM1rcTJWXtLhXXYOqWfdvqj4LZYYXZURd/46EInCV/fn7Py', '$2a$10$/U09iqXy5VKrha9Awqwa.eRFZmusgwmIcN1r2KYs1eReCGqlGgJDa', '2022-05-14 19:13:55', 'Castrillon', '626545898', 6),
+(54, 2406.17, '2022-05-13 22:00:00', '76084354D', 'ignacastrisa@gmail.com', b'0', 'Ignacio', '$2a$10$Q6qQd5ZAKSOKCrqQAJ91hewH/f4A7lC2E6pMo2VfD5E1cRY2QF1Ma', '$2a$10$mWGM0TrfF3CFh2Y1CR3J.Ocibs2EKqUs0z2fpgaXyg0X9850G0G4a', '2022-05-14 19:11:50', 'Suarez', '645897874', 104),
+(105, 40.00, '2022-05-13 22:00:00', '76084354D', 'antonio@gmail.com', b'0', 'Antonio', '$2a$10$xQP83I1o6ji7oNwKlwdWtOqAOXnrtlnybnfTQ6/zrTmEQ2DUy4vkC', '$2a$10$DnB7za.PQF5FR5l4vCtNG.vvnjhRXZh/Jx.4LYMcjAInBLwWcLF7O', '2022-05-19 23:34:29', 'Vazquez', '601386780', 32);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `valuation`
+--
+
+CREATE TABLE `valuation` (
+  `id` int(11) NOT NULL,
+  `register_date` datetime DEFAULT NULL,
+  `value` int(11) NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `receiver_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tablas volcadas
@@ -165,6 +202,14 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKn2na60ukhs76ibtpt9burkm27` (`author_id`),
+  ADD KEY `FKpxfn7ilgawc0x7m694fpjud62` (`receiver_id`);
+
+--
 -- Indices de la tabla `confirmation_token`
 --
 ALTER TABLE `confirmation_token`
@@ -176,6 +221,14 @@ ALTER TABLE `confirmation_token`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `valuation`
+--
+ALTER TABLE `valuation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKler65m99et4mts57yd43ka63b` (`author_id`),
+  ADD KEY `FK99k3yvq1hl6lvonm7mpcp0ex2` (`receiver_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
