@@ -19,4 +19,6 @@ public class ViewConstant {
 	public static final String COMMENTS = "comments";
 	public static final String PRICE = "articlePrice";
 	public static final String TOP = "top";
+	public static final String SHOP = "shop";
+	public static final String CART = "cart";
 }

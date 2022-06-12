@@ -1,6 +1,7 @@
 package com.TrabajoFinal.IgnaShop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.TrabajoFinal.IgnaShop.entity.ArticleEntity;
 import com.TrabajoFinal.IgnaShop.entity.CategoryEntity;
@@ -10,7 +11,6 @@ import com.TrabajoFinal.IgnaShop.model.UsersModel;
 
 public interface ArticleService {
 
-//	List<ArticleEntity> findArticleByCategoryId(int categoryId);
 
 	List<ArticleEntity> listAllArticles(ArticleEntity articleEntity);
 
@@ -37,9 +37,11 @@ public interface ArticleService {
 
 	List<ArticleEntity> findArticleByUsersIdAndCategoryId(UsersEntity usersId, CategoryEntity categoryId);
 
+	List<ArticleEntity> findArticleWithStock();
 
-
+	public Optional<ArticleEntity> findById(int id);
 	
+	 public int save(ArticleEntity article);
 
 
 }

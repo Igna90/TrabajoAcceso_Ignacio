@@ -1,5 +1,6 @@
 package com.TrabajoFinal.IgnaShop.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,9 +17,10 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name="users")
-public class UsersEntity {
+public class UsersEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -63,12 +65,12 @@ public class UsersEntity {
 	@Column(name = "email", nullable = false, length = 50)
 	private String email;
 
-	@NotEmpty(message = "Debe introducir una contraseña")
-	@Column(name = "password", nullable = false, length = 60)
+	
+	@Column(name = "password", length = 60)
 	private String password;
 
-	@NotEmpty(message = "Debe introducir una contraseña")
-	@Column(name = "passwordConfirm", nullable = false, length = 60)
+	
+	@Column(name = "passwordConfirm", length = 60)
 	private String passwordConfirm;
 
 	@Column(name = "balance")
@@ -91,7 +93,7 @@ public class UsersEntity {
 			boolean enabled, double balance, Date registerDate, Date birthday,
 			@NotNull @NotEmpty(message = "El campo teléfono no puede ir vacío") @Size(min = 3, max = 10, message = "El campo teléfono debe tener entre 3 y 60 caracteres") String phone,
 			@Email @NotNull @NotEmpty(message = "Debe introducir un email") @Size(min = 1, max = 50, message = "El email debe tener de 1 a 60 caracteres") String email,
-			@NotEmpty(message = "Debe introducir una contraseña") String password,@NotEmpty(message = "Debe introducir una contraseña") String passwordConfirm, int numVentas) {
+			String password, String passwordConfirm, int numVentas) {
 		super();
 		this.id = id;
 		this.name = name;

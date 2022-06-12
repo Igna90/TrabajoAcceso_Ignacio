@@ -1,11 +1,13 @@
 package com.TrabajoFinal.IgnaShop.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import com.TrabajoFinal.IgnaShop.entity.ArticleEntity;
 import com.TrabajoFinal.IgnaShop.entity.CategoryEntity;
 import com.TrabajoFinal.IgnaShop.entity.UsersEntity;
@@ -17,6 +19,8 @@ import com.TrabajoFinal.IgnaShop.service.ArticleService;
 @Service
 public class ArticleServiceImplementation implements ArticleService {
 
+	
+	
 	@Autowired
 	@Qualifier("articleJpaRepository")
 	private ArticleJpaRepository articleJpaRepository;
@@ -48,7 +52,8 @@ public class ArticleServiceImplementation implements ArticleService {
 	public ArticleEntity findArticleById(int id) {
 		return articleJpaRepository.findArticleById(id);
 	}
-
+	
+	
 	@Override
 	public void deleteArticle(int id) {
 		ArticleEntity article = articleJpaRepository.findArticleById(id);
@@ -84,4 +89,25 @@ public class ArticleServiceImplementation implements ArticleService {
 		return articleJpaRepository.findArticlesByUsersIdOrderByPriceAsc(usersId);
 	}
 
+	public List<ArticleEntity> findArticleWithStock(){
+		return articleJpaRepository.findWithStock();
+	}
+	
+	@Override
+	public Optional<ArticleEntity> findById(int id) {
+		return articleJpaRepository.findById(id);
+	}
+
+	
+	@Override
+	public int save(ArticleEntity article) {
+		int res=0;
+		ArticleEntity product=articleJpaRepository.save(article);
+		if(!product.equals(null))
+			res=1;
+		return res;
+	}
 }
+
+
+

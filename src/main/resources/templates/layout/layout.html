@@ -51,6 +51,22 @@
 
 			</a>
 
+			<hr class="sidebar-divider">
+
+			<ul>
+				<li class="nav-item"><a class="nav-link"
+					href="/user/shopping"> <i class="fas fa-solid fas fa-store"></i>
+						<span>Comprar articulos</span>
+				</a></li>
+			</ul>
+
+			<hr class="sidebar-divider">
+			<ul>
+				<li class="nav-item"><a class="nav-link"
+					href="/user/cart"> <i class="fas fa-solid fas fa-cart-arrow-down"></i>
+						<span>Carrito</span>
+				</a></li>
+			</ul>
 
 			<hr class="sidebar-divider">
 
@@ -83,15 +99,16 @@
 
 				<hr class="sidebar-divider my-0">
 
-				<li class="nav-item"><a class="nav-link"
-					href="/"> <i class="fas fa-solid fas fa-comment"></i><span>Chat</span>
+				<li class="nav-item"><a class="nav-link" href="/"> <i
+						class="fas fa-solid fas fa-comment"></i><span>Chat</span>
 				</a></li>
 				<hr class="sidebar-divider my-0">
 
-				<li class="nav-item"><a class="nav-link"
-					href="/user/topUsers"> <i class="fas fa-solid fas fa-chart-area"></i><span>Top Vendedores</span>
+				<li class="nav-item"><a class="nav-link" href="/user/topUsers">
+						<i class="fas fa-solid fas fa-chart-area"></i><span>Top
+							Vendedores</span>
 				</a></li>
-				
+
 			</ul>
 			<!-- Divider -->
 
@@ -180,13 +197,15 @@
 
 		</ul>
 		<!-- End of Sidebar -->
-
+<!-- Main Sidebar Container -->
+		
+		
+		
+		
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 
-			<!-- Main Content -->
-			<div id="content">
-
+		
 				<!-- Topbar -->
 				<nav
 					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -425,6 +444,19 @@
 				<!-- End of Topbar -->
 
 				<!-- CONTENIDO DINAMICO DE LA PAGINA -->
+					<!-- Main Content -->
+			<div id="content">
+			<div th:fragment="messages">
+			<div class="alert alert-success" th:if="${success != null}"
+				th:text="${success}"></div>
+			<div class="alert alert-danger" th:if="${error != null}"
+				th:text="${error}"></div>
+			<div class="alert alert-warning" th:if="${warning != null}"
+				th:text="${warning}"></div>
+			<div class="alert alert-info" th:if="${info != null}"
+				th:text="${info}"></div>
+		</div>
+				
 				<div class="container-fluid" layout:fragment="page-content"></div>
 				<!-- FIN DEL CONTENIDO DINAMICO DE LA PAGINA -->
 

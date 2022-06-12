@@ -1,5 +1,7 @@
 package com.TrabajoFinal.IgnaShop.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +13,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name="category")
-public class CategoryEntity {
+public class CategoryEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

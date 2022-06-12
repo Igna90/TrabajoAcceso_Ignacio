@@ -1,6 +1,6 @@
 package com.TrabajoFinal.IgnaShop.entity;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,9 +15,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "article")
-public class ArticleEntity {
+public class ArticleEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,8 +40,10 @@ public class ArticleEntity {
 
 	@Column(name = "price")
 	@NotNull
-
-	private BigDecimal price;
+	private float price;
+	
+	@Column(name = "stock")
+	public int stock;
 
 	@Column(name = "image", nullable = false)
 	private String image;
@@ -60,8 +63,8 @@ public class ArticleEntity {
 		super();
 	}
 
-	public ArticleEntity(int id, String name, String description, BigDecimal price, String image, UsersEntity usersId,
-			CategoryEntity categoryId, int code, Date registerDate) {
+	public ArticleEntity(int id, String name, String description, float price, String image, UsersEntity usersId,
+			CategoryEntity categoryId, int code, Date registerDate, int stock) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -71,7 +74,7 @@ public class ArticleEntity {
 		this.usersId = usersId;
 		this.categoryId = categoryId;
 		this.registerDate = registerDate;
-		
+		this.stock = stock;
 
 	}
 
@@ -115,11 +118,11 @@ public class ArticleEntity {
 		this.description = description;
 	}
 
-	public BigDecimal getPrice() {
+	public float getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
 
@@ -151,6 +154,17 @@ public class ArticleEntity {
 
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
+	}
+	
+	public boolean noStock() {
+		return this.stock<= 0;
+	}
+	
+	public void increaseStock(int quantity) {
+		this.stock += quantity;
+	}
+	public void reduceStock(int quantity) {
+		this.stock-= quantity;
 	}
 
 }

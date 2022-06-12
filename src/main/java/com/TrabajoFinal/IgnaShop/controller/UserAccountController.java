@@ -5,9 +5,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -26,8 +30,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.TrabajoFinal.IgnaShop.Constant.ViewConstant;
+import com.TrabajoFinal.IgnaShop.config.PDF;
 import com.TrabajoFinal.IgnaShop.entity.ArticleEntity;
 import com.TrabajoFinal.IgnaShop.entity.CategoryEntity;
 import com.TrabajoFinal.IgnaShop.entity.CommentEntity;
@@ -41,6 +47,7 @@ import com.TrabajoFinal.IgnaShop.service.CategoryService;
 import com.TrabajoFinal.IgnaShop.service.CommentsService;
 import com.TrabajoFinal.IgnaShop.service.EmailSenderService;
 import com.TrabajoFinal.IgnaShop.service.UserService;
+import com.lowagie.text.DocumentException;
 
 @Controller
 @RequestMapping("/user")
@@ -364,12 +371,113 @@ public class UserAccountController {
 
 	@GetMapping("/topUsers")
 	public String topSellers(Model model, UsersEntity usersEntity) {
-	
+
 		model.addAttribute("user", new UsersEntity());
 		model.addAttribute("users", userService.listUsersByOrder());
-	
 
 		return ViewConstant.TOP;
+	}
+
+	@GetMapping("/shopping")
+	public String shopping(Model model, HttpServletRequest request) {
+		List<ArticleEntity> articles = articleService.findArticleWithStock();
+		model.addAttribute("articles", articles);
+		return ViewConstant.SHOP;
+	}
+
+	@GetMapping("/cart")
+	public String cart(Model model, HttpSession session) {
+		@SuppressWarnings("unchecked")
+		List<ArticleEntity> shopList = (List<ArticleEntity>) session.getAttribute("List");
+
+		if (shopList == null) {
+			shopList = new ArrayList<ArticleEntity>();
+		}
+		model.addAttribute("cart", shopList);
+		return ViewConstant.CART;
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("/deleteArticleOfCart/{index}")
+	public String deleteArticleOfCart(Model model, @PathVariable(name = "index") int index, HttpSession session)
+			throws Exception {
+
+		List<ArticleEntity> articles = (List<ArticleEntity>) session.getAttribute("List");
+
+		if (articles == null) {
+			session.setAttribute("List", new ArrayList<ArticleEntity>());
+		} else {
+			articles.remove(index);
+		}
+
+//		
+		session.setAttribute("List", articles);
+		return "redirect:/user/cart";
+	}
+
+	@SuppressWarnings("unchecked")
+	@PostMapping("/addArticle")
+	public String addingArticle(HttpSession session, @RequestParam int id) {
+
+		List<ArticleEntity> articles = (List<ArticleEntity>) session.getAttribute("List");
+
+		Optional<ArticleEntity> product = articleService.findById(id);
+
+		if (articles == null) {
+			articles = new ArrayList<ArticleEntity>();
+			session.setAttribute("List", new ArrayList<ArticleEntity>());
+		}
+		if (product.get() != null) {
+			articles.add(product.get());
+		}
+		session.setAttribute("List", articles);
+		return "redirect:/user/cart";
+	}
+
+	@PostMapping("/destroy")
+	public String destroyBuy(HttpSession session) {
+		session.setAttribute("List", new ArrayList<ArticleEntity>());
+		return "redirect:/user/shopping";
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("/pdf")
+	public String createPDF(HttpServletResponse response, HttpSession session, Authentication auth,
+			RedirectAttributes flash) throws DocumentException, IOException {
+
+		List<ArticleEntity> articles = (List<ArticleEntity>) session.getAttribute("List");
+		UsersEntity user = userService.findUserByEmail(auth.getName());
+
+		int total = 0;
+		for (ArticleEntity article : articles) {
+			total += article.getPrice();
+		} if (user.getBalance() >= total) {
+			user.setBalance(user.getBalance() - total);
+			runPDF(response, session);
+			return null;
+		} else {
+			flash.addFlashAttribute("error", "La compra no se ha podido realizar al no disponer de saldo suficiente.");
+			return "redirect:/user/cart";
+		}
+
+	}
+
+	private void runPDF(HttpServletResponse response, HttpSession session) throws DocumentException, IOException {
+
+		response.setContentType("application/pdf");
+		String header = "Sell&Buy";
+		String headerValue = "inline; filename=CompraSell&buy.pdf";
+		response.setHeader(header, headerValue);
+		@SuppressWarnings("unchecked")
+		List<ArticleEntity> articles = (List<ArticleEntity>) session.getAttribute("List");
+		
+		for (ArticleEntity article : articles) {
+			article.reduceStock(1);
+			articleService.save(article);
+		}
+		PDF pdf = new PDF(articles);
+		pdf.export(response);
+		session.setAttribute("List", new ArrayList<ArticleEntity>());
 	}
 
 	public UserRepository getUserRepository() {

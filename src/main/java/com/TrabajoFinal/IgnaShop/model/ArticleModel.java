@@ -3,6 +3,10 @@ package com.TrabajoFinal.IgnaShop.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Entity;
+
+
+
 public class ArticleModel {
 
 	private int id;
@@ -14,13 +18,14 @@ public class ArticleModel {
 	private int categoryId;
 	private int code;
 	private Date registerDate;
+	private int stock;
 
 	public ArticleModel() {
 		super();
 	}
 
 	public ArticleModel(int id, String name, String description, BigDecimal price, String image, int usersId,
-			int categoryId, int code, Date registerDate) {
+			int categoryId, int code, Date registerDate, int stock) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -31,6 +36,7 @@ public class ArticleModel {
 		this.categoryId = categoryId;
 		this.code = code;
 		this.registerDate = registerDate;
+		this.stock = stock;
 
 	}
 
@@ -98,14 +104,6 @@ public class ArticleModel {
 		this.usersId = usersId;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "ArticleModel [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
-				+ ", image=" + image + ", user_id=" + usersId + ", categoryId=" + categoryId + "]";
-	}
-
 	public Date getRegisterDate() {
 		return registerDate;
 	}
@@ -114,4 +112,17 @@ public class ArticleModel {
 		this.registerDate = registerDate;
 	}
 
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public void setUsersId(int usersId) {
+		this.usersId = usersId;
+	}
+	
+	
 }
